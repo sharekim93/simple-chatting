@@ -1,14 +1,27 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import SideBar from "@/components/SideBar";
 import { CgSpinner } from "react-icons/cg";
 import { IoChatbubblesOutline } from "react-icons/io5";
-import { auth } from "@/firebase";
+import { auth, db } from "@/firebase";
 import Login from "@/components/Login";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 const Home = () => {
   const [user, loading] = useAuthState(auth);
+
+  useEffect(() => {
+    if (user) {
+      setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        lastActive: serverTimestamp(),
+        photoURL: user.photoURL,
+        displayName: user.displayName,
+      }),
+        { merge: true };
+    }
+  }, [user]);
 
   if (loading) {
     return (
