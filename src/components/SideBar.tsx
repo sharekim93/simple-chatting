@@ -7,11 +7,14 @@ import { collection, DocumentData } from "firebase/firestore";
 import { CgSpinner } from "react-icons/cg";
 import UserListItem from "./UserListItem";
 import { signOut } from "firebase/auth";
-import Router from "next/router";
 import { useRouter } from "next/navigation";
+import { IChat } from "@/types";
 
-const SideBar = () => {
+interface ISideProps {
+  selectedChatId?: string;
+}
 
+const SideBar = ({ selectedChatId }: ISideProps) => {
   const router = useRouter();
   const [user] = useAuthState(auth);
 
@@ -25,10 +28,16 @@ const SideBar = () => {
     (singleUser) => singleUser.email !== user?.email
   );
 
-  const logout = () {
-    signOut(auth)
-    router.push("/")
-  }
+  const [snapshotChat] = useCollection(collection(db, "chats"));
+  const chats = snapshotChat?.docs.map((doc: DocumentData) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  const logout = () => {
+    signOut(auth);
+    router.push("/");
+  };
 
   if (!user) {
     return (
@@ -42,12 +51,25 @@ const SideBar = () => {
     <div className="flex flex-col items-start w-full h-screen border-l border-r border-gray-200">
       <div className="flex items-center justify-between w-full p-4 text-xl font-bold border-b border-gray-200 h-[70px]">
         <p>채팅</p>
-        <button className="text-small font-medium" onClick={() => logout()}>
+        <button
+          className="flex items-center text-sm font-medium"
+          onClick={() => logout()}
+        >
           로그아웃
         </button>
       </div>
-      <div>
-        <UserListItem />
+      <div className="w-full overflow-x-scroll no-scrollbar pb-36">
+        {filteredUsers?.map((receiver) => {
+          return (
+            <UserListItem
+              sender={user}
+              receiver={receiver}
+              chats={chats as IChat[]}
+              selectedChatId={selectedChatId}
+              key={receiver.email}
+            />
+          );
+        })}
       </div>
     </div>
   );
