@@ -49,7 +49,7 @@ const SideBar = ({ selectedChatId }: ISideProps) => {
 
   return (
     <div className="flex flex-col items-start w-full h-screen border-l border-r border-gray-200">
-      <div className="flex items-center justify-between w-full p-4 text-xl font-bold border-b border-gray-200 h-[70px]">
+      <div className="flex items-center justify-between w-full p-4 text-xl font-bold border-b border-gray-200 h-[74px]">
         <p>채팅</p>
         <button
           className="flex items-center text-sm font-medium"
@@ -58,7 +58,7 @@ const SideBar = ({ selectedChatId }: ISideProps) => {
           로그아웃
         </button>
       </div>
-      <div className="w-full overflow-x-scroll no-scrollbar pb-36">
+      <div className="w-full h-screen no-scrollbar pb-36">
         {filteredUsers?.map((receiver) => {
           return (
             <UserListItem
