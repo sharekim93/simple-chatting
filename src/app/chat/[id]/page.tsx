@@ -8,7 +8,6 @@ import { IMessage } from "@/types";
 import { User } from "firebase/auth";
 import { collection, doc, orderBy, query } from "firebase/firestore";
 import { useParams, useRouter } from "next/navigation";
-import Router from "next/router";
 import React, { useRef, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
