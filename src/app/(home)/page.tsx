@@ -2,11 +2,12 @@
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import SideBar from "@/components/SideBar";
-import { CgSpinner } from "react-icons/cg";
+
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { auth, db } from "@/firebase";
 import Login from "@/components/Login";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import Loader from "@/components/Loader";
 
 const Home = () => {
   const [user, loading] = useAuthState(auth);
@@ -24,11 +25,7 @@ const Home = () => {
   }, [user]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center w-full h-screen">
-        <CgSpinner className="w-20 h-10 animate-spin" />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (!user) {
