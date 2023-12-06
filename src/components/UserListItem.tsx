@@ -72,16 +72,18 @@ const UserListItem = ({
         onClick={handleClick}
       >
         <div>
-          <Image
-            src={receiver.photoURL!}
-            alt={receiver.displayName!}
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
+          {receiver?.photoURL ? (
+            <Image
+              src={receiver.photoURL!}
+              alt={receiver.displayName!}
+              width={40}
+              height={40}
+              className="rounded-full"
+            />
+          ) : null}
         </div>
         <div className="ml-4">
-          <p>{receiver.displayName}</p>
+          <p>{receiver.displayName ? receiver.displayName : receiver.email}</p>
         </div>
       </div>
     </div>

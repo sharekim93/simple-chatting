@@ -16,13 +16,15 @@ const MessageBubble = ({ user, message }: IMessageProps) => {
     <div className={!sender ? `flex justify-start` : `flex justify-end`}>
       {!sender && (
         <div className="mr-3">
-          <Image
-            src={message.photoURL}
-            alt={message.sender}
-            width={30}
-            height={30}
-            className="rounded-full"
-          />
+          {message?.photoURL ? (
+            <Image
+              src={message.photoURL}
+              alt={message.sender}
+              width={30}
+              height={30}
+              className="rounded-full"
+            />
+          ) : null}
         </div>
       )}
       <div
